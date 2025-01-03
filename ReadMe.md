@@ -1,0 +1,14 @@
+# Introduction
+This project contains all code and data necessary to finalize the list of job titles. It requires two inputs, namely `vacancies_archivedvacancies.csv`, which is a list of all activa vacancies in the state of NY, and "Alternate Titles.xlsx", which is a list of alternate titles for each job title, obtained through O*NET.
+
+# Summary and process
+
+There are two files that are used sequentially to process the raw data and produce the final list of job titles, namely "1.comon_titles.ipynb" and "2.title_counts_analysis.do".
+
+The steps that are followed are:
+
+1. File "1.comon_titles.ipynb" imports alternate titles from O*NET as well as active vacancies. After exploding the vacancy dataset to create one observation per occupational group associated with each vacancy (as each vacancy can be associated with multiple occupational groups), the number of instances of each alternate job title in the vacancy dataset is measured. First, we measure the number of times that each alternate title is found within a job title of a vacancy across all occupational groups. Subsequently, we repeat this process within the 2-digit occupational group associated with the alternate title provided by O*NET. Hence, this python notebook produces 2 output files, "title_counts_across.xlsx" and "title_counts.xlsx". The first file includes the count of instances of each alterate title in the entire dataset, while the socond one includes the count within the 2-digit code associated with it. 
+
+2. The file "2.title_counts_analysis.do" takes the 2 output files from Step 1 and sets a threshold at 0.5, meaning that it only keeps those alternate titles for which more than 50% of appearances occurred within the 2-digit code they are associated with. ​Of the remaining alternate titles, we keep the 20 most prevalent ones for each 2-digit category, according to the counts within their category in the vacancy dataset. This is saved as "output_titles_final.xlsx".
+
+3.Based on those 20 titles, we hand-pick the 9 most distinct​/specific alternate titles for each category, aiming to have 3 per tercile. As a note, category 15 (Computer and Mathematical Occupations) only returned 8 alternate titles that appeared in the vacancy set, hence we decided to keep the 6 most distinct ones. These are saved in "output_titles_final_manual.xlsx". We do 1 of 3 things for each title: Either we keep it as is (code 1) in case we deem it to be distinct/specific, we omit it if we deem it is not (code 0), or we replace it with a new title that we deem to be more specifcic or distinct and which we find through a google search (code 2).
